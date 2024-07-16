@@ -1,0 +1,38 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsprofessionalapp
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: devopsprofessionalapp
+  template:
+    metadata:
+      labels:
+        app: devopsprofessionalapp
+    spec:
+      containers:
+      - name: myapp
+        image: adiron99/devopsprofessional
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 85
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devopsprofessionalapp
+spec:
+  type: NodePort
+  selector:
+    app: myapp
+  ports:
+  - port: 80
+    targetPort: 85
+
